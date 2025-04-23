@@ -34,39 +34,40 @@ Ziel ist die Realisierung eines cyberphysischen Systems zur smarten Automatisier
 
 ## Hardware
 
-### Microcontroller, Server, usw
+### Andere
 
-- Arduino für Sensorik
-- Raspberry 5 8GB als Datenverarbeitung
-- Raspberry als Server
-- Auto mit Fernsteuerung
+- Auto chassis https://www.roboter-bausatz.de/p/bausatz-4wd-smart-car-chassis-fuer-roboter
+- 
 
 ### Sensoren
 
-| Sensor              | Funktion | Wichtigkeit |
-|:--------------------|:---------|:------------|
-| Ultraschallsensor   |          |             |
-| Infrarotsensor      |          |             |
-| Motordrehzahlsensor |          |             |
-| Gyroskop            |          |             |
-| Magnetometer        |          |             |
-| Akkustandsensor     |          |             |
-| Kamera              |          |             |
-| Geigerzähler        |          |             | 
-| Schallsensor        |          |             |
-| Feinstaubsensor     |          |             |
-| Drucksensor         |          |             | 
-| Extra Drohne        |          |             |
-| Feuchtigkeitssensor |          |             | 
-| LIDAR               |          |             |
-| Farbsensor          |          |             |
-| QR/Barcode scanner  |          |             |
-| Temperatur          |          |             |
-| Lautstärke          |          |             |
-| UV-Sensor           |          |             |
-| Drucksensor         |          |             |
-| Mikrofon            |          |             |
+wichtigkeit geht von 
+``` 
+-  1 = unnötig aber cool
+ 100 = absolut notwenig
+```
 
+| Sensor              | Funktion                         | Wichtigkeit | Verfügbarkeit     | Anmerkung                                                                                                                              |
+|---------------------|----------------------------------|-------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| Ultraschallsensor   | Abstandsmessung per Schall       |             | ✅ Vorhanden       | HC-SR04 im Koffer enthalten, https://www.roboter-bausatz.de/p/5x-hc-sr04-ultraschallsensor-entfernungsmesser?ra_id=4570449494&weiche=1 |
+| Infrarotsensor      | IR-Kommunikation oder Erkennung  |             | ✅ Vorhanden       | HC-SR501 IR, KY-005 (IR Transmitter), KY-022 (IR Receiver), KY-032 (Hindernis-Detektor)                                                |
+| Motordrehzahlsensor | Drehzahlmessung                  | 50          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Gyroskop            | Lagedetektion                    |             | ✅ Vorhanden       | MPU6050 Lage-Beschleunigungsensor                                                                                                      |
+| Magnetometer        | Magnetfeldmessung (3D)           | 80          | ❌ Nicht direkt    | Nur einfache Magnetsensoren (KY-003, KY-024, KY-035)                                                                                   |
+| Akkustandsensor     | Akkuspannung/-status             | 50          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Kamera              | Bilderfassung                    | 100         | ❌ Nicht vorhanden | https://www.reichelt.com/de/en/shop/product/raspberry_pi_-_camera_8mp_v2_imx219pq-170853 (9,80€)                                       |
+| Geigerzähler        | Strahlungsmessung                | -1          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Schallsensor        | Schalldetektion                  |             | ✅ Vorhanden       | KY-037, KY-038 (Mikrofon-/Schallsensor)                                                                                                |
+| Feinstaubsensor     | Luftqualität                     | -1          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Drucksensor         | Luftdruck / physikalischer Druck |             | ✅ Vorhanden       | BMP280 Luftdruck                                                                                                                       |
+| Extra Drohne        | Zusatzgerät                      | -1          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Feuchtigkeitssensor | Luftfeuchtigkeit                 |             | ✅ Vorhanden       | KY-015 (Temp + Feuchte) + Luftfeuchtigkeits-Regensensor                                                                                |
+| Temperatur          | Temperaturmessung                |             | ✅ Vorhanden       | KY-001, KY-013, KY-028, KY-015                                                                                                         |
+| QR/Barcode scanner  | Codeerkennung                    | 80          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Lautstärke          | Schalldruckpegel                 |             | ✅ (indirekt)      | KY-037/038 können verwendet werden                                                                                                     |
+| UV-Sensor           | UV-Lichtmessung                  | -1          | ❌ Nicht vorhanden |                                                                                                                                        |
+| Mikrofon            | Geräuscherkennung                |             | ✅ Vorhanden       | KY-037, KY-038                                                                                                                         |
+| ToF                 | Mapping                          | 100         | ❌ Nicht vorhanden | https://www.az-delivery.de/products/vl53l0x-time-of-flight-tof-laser-abstandssensor?variant=32344531435616 (18,99€)                    |
 ## Softwarearchitektur
                    
 ```
