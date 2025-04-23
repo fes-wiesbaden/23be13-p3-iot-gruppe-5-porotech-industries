@@ -44,7 +44,7 @@ Diese Dokumentation bietet einen Überblick über die im Projekt verwendeten Tec
 - **Programmiersprache**: C
 - **Plattform**: Arduino
 
-*Begründung*: Marcel und Paul verfügen über Erfahrung in C und übernehmen die Entwicklung der Embedded-Software. Arduino bietet eine kostengünstige und flexible Plattform für die Steuerung von Sensoren und Aktoren.
+*Begründung*: Marcel und Paul verfügen über Erfahrung in C und übernehmen die Entwicklung der Embedded-Software. Arduino bietet eine kostenlose und triviale Steuerung der Sensoren und Aktoren.
 
 ---
 
