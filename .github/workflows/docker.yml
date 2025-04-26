@@ -1,0 +1,48 @@
+name: Build & Push Docker Image
+
+on:
+  push:
+      - master
+  paths:
+      - 'Dockerfile'
+      - 'build.xml'
+      - '.github/workflows/docker.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'Dockerfile'
+      - 'build.xml'
+      - '.github/workflows/docker.yml'
+
+jobs:
+  publish_images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Ant (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ant
+
+      - name: Prepare environment
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: echo "Secrets loaded"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & Push (Ant)
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: ant -f build.xml push
