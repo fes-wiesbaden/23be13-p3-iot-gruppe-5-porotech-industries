@@ -2,8 +2,9 @@ name: Build & Push Docker Image
 
 on:
   push:
+    branches:
       - master
-  paths:
+    paths:
       - 'Dockerfile'
       - 'build.xml'
       - '.github/workflows/docker.yml'
