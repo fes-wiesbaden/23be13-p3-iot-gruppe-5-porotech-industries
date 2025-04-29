@@ -10,7 +10,7 @@ assignees: ''
 
 ## Beschreibung
 
-<!-- kurze beschreibung des issues pog -->
+<!-- kurze beschreibung des issues -->
 
 ## Definition Of Done
 
