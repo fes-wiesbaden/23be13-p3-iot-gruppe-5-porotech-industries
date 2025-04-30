@@ -20,21 +20,23 @@ public class OpenCvController {
     public String testOpenCv() {
         try {
             // Kamera (Device 0) öffnen
-            VideoCapture camera = new VideoCapture(0);
+            Mat frame;
+            try (VideoCapture camera = new VideoCapture(0)) {
 
-            if (!camera.isOpened()) {
-                return "❌ Fehler: Kamera konnte nicht geöffnet werden.";
-            }
+                if (!camera.isOpened()) {
+                    return "❌ Fehler: Kamera konnte nicht geöffnet werden.";
+                }
 
-            Mat frame = new Mat();
-            camera.read(frame);
+                frame = new Mat();
+                camera.read(frame);
 
-            if (frame.empty()) {
+                if (frame.empty()) {
+                    camera.release();
+                    return "⚠️ Fehler: Kein Bild von der Kamera erhalten.";
+                }
+
                 camera.release();
-                return "⚠️ Fehler: Kein Bild von der Kamera erhalten.";
             }
-
-            camera.release();
             return "✅ OpenCV funktioniert! Frame erfolgreich aufgenommen (Größe: "
                     + frame.size() + ")";
         } catch (Exception e) {
