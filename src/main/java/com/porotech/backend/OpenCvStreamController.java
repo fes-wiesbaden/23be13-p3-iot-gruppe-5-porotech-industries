@@ -86,7 +86,7 @@ public class OpenCvStreamController {
                             frame,
                             r,
                             red,
-                            8,
+                            2,
                             opencv_imgproc.LINE_8,
                             0
                     );
