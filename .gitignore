@@ -46,3 +46,19 @@ out/
 
 
 .secrets
+/src/main/resources/models/
+/src/main/resources/models/coco.names
+
+/src/main/resources/models/yolov3.cfg
+
+/src/main/resources/models/yolov3.weights
+
+/src/main/resources/models/yolov3-tiny.cfg
+
+/src/main/resources/models/yolov3-tiny.weights
+
+/src/main/resources/models/yolov8n.onnx
+
+/src/main/resources/models/yolov8n.pt
+
+/src/main/resources/models/yolov8n_simpl.onnx
