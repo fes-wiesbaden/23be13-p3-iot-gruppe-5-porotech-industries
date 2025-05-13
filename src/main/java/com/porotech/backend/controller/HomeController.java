@@ -1,4 +1,4 @@
-package com.porotech.backend;
+package com.porotech.backend.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
