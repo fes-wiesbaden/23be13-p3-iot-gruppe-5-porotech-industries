@@ -1,4 +1,13 @@
-package com.porotech.backend;
+package com.porotech.backend.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+
+import org.springframework.core.io.Resource;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 import org.bytedeco.opencv.opencv_dnn.DetectionModel;
 import org.bytedeco.opencv.opencv_core.Size;
@@ -15,10 +24,7 @@ import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.Rect;
 import org.bytedeco.opencv.opencv_core.RectVector;
-import org.bytedeco.opencv.opencv_core.Scalar;
-import org.bytedeco.opencv.opencv_core.Size;
 import org.bytedeco.opencv.opencv_java;
-import org.bytedeco.opencv.opencv_objdetect.CascadeClassifier;
 import org.bytedeco.opencv.opencv_videoio.VideoCapture;
 import org.bytedeco.opencv.opencv_dnn.Net;
 import jakarta.annotation.PostConstruct;
@@ -29,7 +35,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -55,8 +60,8 @@ public class OpenCvStreamController {
 
         camera = new VideoCapture(0);
 
-        String cfgPath      = new ClassPathResource("models/yolov3.cfg").getFile().getAbsolutePath();
-        String weightsPath = new ClassPathResource("models/yolov3.weights").getFile().getAbsolutePath();
+        String cfgPath = new ClassPathResource("models/yolov3.cfg").getURI().getPath();
+        String weightsPath = new ClassPathResource("models/yolov3.weights").getURI().getPath();
 
         Net net = readNetFromDarknet(cfgPath, weightsPath);
         net.setPreferableBackend(DNN_BACKEND_OPENCV);
@@ -68,8 +73,12 @@ public class OpenCvStreamController {
         model.setInputScale(Scalar.all((1.0 / 255.0)));
         model.setInputSwapRB(true);
 
-        java.nio.file.Path namesPath = new org.springframework.core.io.ClassPathResource("models/coco.names").getFile().toPath();
-        classNames = java.nio.file.Files.readAllLines(namesPath);
+        Resource namesResource = new ClassPathResource("models/coco.names");
+        try (InputStream namesStream = namesResource.getInputStream()) {
+            classNames = new BufferedReader(new InputStreamReader(namesStream, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.toList());
+        }
 
         // Start capture thread
         new Thread(() -> {
@@ -94,8 +103,9 @@ public class OpenCvStreamController {
                         Rect rect = boxes.get(i);
                         int id = classIds.get(i);
                         float conf = confidences.get(i);
+                        String label = (id >= 0 && id < classNames.size()) ? classNames.get(id) : "unknown";
                         opencv_imgproc.putText(f,
-                                classNames.get(id) + String.format(": %.2f", conf),
+                                label + String.format(": %.2f", conf),
                                 new Point(rect.x(), rect.y() - 5),
                                 opencv_imgproc.FONT_HERSHEY_SIMPLEX, 0.5,
                                 new Scalar(0, 255, 0, 0), 1, opencv_imgproc.LINE_8, false);
@@ -116,6 +126,10 @@ public class OpenCvStreamController {
     }
 
     @GetMapping(value = "/opencv/stream", produces = "multipart/x-mixed-replace;boundary=frame")
+    @Operation(
+        summary = "Live-Video-Stream",
+        description = "Gibt einen multipart/x-mixed-replace MJPEG-Stream der verarbeiteten Frames zurück"
+    )
     public void stream(HttpServletResponse response) {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Connection", "keep-alive");

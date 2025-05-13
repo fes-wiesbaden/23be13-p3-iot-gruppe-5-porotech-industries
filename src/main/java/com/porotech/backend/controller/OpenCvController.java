@@ -1,4 +1,4 @@
-package com.porotech.backend;
+package com.porotech.backend.controller;
 
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.opencv.opencv_java;
