@@ -1,8 +1,14 @@
 //POROCAR
 
+uint32_t delayMS = 100;
+
 //TEMP HUMIDITY
-#include <DHT11.h>
-DHT11 dht11(2);
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
+#define DHTPIN 2
+#define DHTTYPE    DHT11
+DHT_Unified dht(DHTPIN, DHTTYPE);
 
 // ULTRASCHALL
 #include <hcsr04.h>
@@ -26,13 +32,9 @@ HCSR04 hcsr04_back(TRIG_PIN_BACK, ECHO_PIN_BACK, 20, 4000);
 // 6050
 
 #include <Wire.h>
-#include <math.h>
+#include <MPU6050_light.h>
 
-const int MPU = 0x68;
-int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
-int AcXcal, AcYcal, AcZcal, GyXcal, GyYcal, GyZcal, tcal;
-double t, tx, tf, pitch, roll, Rolle, Pitch;
-
+MPU6050 mpu(Wire);
 
 // KOMPASS
 
@@ -42,144 +44,102 @@ QMC5883LCompass compass;
 
 
 
+
+
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("TEST");
 
   // 6050
   Wire.begin();
-  Wire.beginTransmission(MPU);
-  Wire.write(0x6B);
-  Wire.write(0);
-  Wire.endTransmission(true);
+  byte status = mpu.begin();
+  mpu.calcOffsets(true,true);  
+  //Serial.print(F("MPU6050 status: "));
+  //Serial.println(status);
 
   // Kompass
   compass.init();
+  compass.setSmoothing(10,true);  
+  //compass.setCalibrationOffsets(5.00, 287.00, -730.00);
+  //compass.setCalibrationScales(1.05, 1.06, 0.91);
+
+  dht.begin();
+  sensor_t sensor;
+  dht.temperature().getSensor(&sensor);
+  dht.humidity().getSensor(&sensor);
 }
 
 void loop() {
+  sensors_event_t event;
+  dht.temperature().getEvent(&event);
 
-  Serial.println("------------------");
-  Serial.println("|   DATA START   |");
-  Serial.println("------------------");
-  // put your main code here, to run repeatedly:
-  // TEMP HUMIDITY
-  int temperature = 0;
-  int humidity = 0;
-
-  int result = dht11.readTemperatureHumidity(temperature, humidity);
-
-  if (result == 0) {
-      Serial.print("Temperature: ");
-      Serial.print(temperature);
-      Serial.print(" °C\tHumidity: ");
-      Serial.print(humidity);
-      Serial.println(" %");
-  } else {
-      // Print error message based on the error code.
-      Serial.println(DHT11::getErrorString(result));
+  String Sensordata = "DATASTART|";
+  if (!isnan(event.temperature)) {
+    // t = porocar/arduino/sensors/dht11/temperature
+    Sensordata += "t:" + String(event.temperature) + "|";
+  }
+  if (!isnan(event.relative_humidity)) {
+    // h = porocar/arduino/sensors/dht11/humidity
+    Sensordata += "h:" + String(event.relative_humidity) + "|";
   }
 
-  Serial.println("---------------------");
 
-  //ULTRASCHALLF 
-  Serial.println("Front Left");
-  Serial.println(hcsr04_front_left.ToString());
-  Serial.println("---------------------");
-  Serial.println("Front Right");
-  Serial.println(hcsr04_front_right.ToString());
-  Serial.println("---------------------");
-  Serial.println("BACK");
-  Serial.println(hcsr04_back.ToString());
+//ULTRASCHALL
 
-  Serial.println("---------------------");
-  // 6050
+  // ufl = porocar/arduino/sensors/hc-sr04/front-left
+  Sensordata += "ufl:" + String(hcsr04_front_left.distanceInMillimeters()) + "|";
 
-  Wire.beginTransmission(MPU);
-  Wire.write(0x3B);
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU, 14, true);
-  AcXcal = -950;
-  AcYcal = -300;
-  AcZcal = 0;
-  tcal = -1600;
-  GyXcal = 480;
-  GyYcal = 170;
-  GyZcal = 210;
-  AcX = Wire.read() << 8 | Wire.read();
-  AcY = Wire.read() << 8 | Wire.read();
-  AcZ = Wire.read() << 8 | Wire.read();
-  Tmp = Wire.read() << 8 | Wire.read();
-  GyX = Wire.read() << 8 | Wire.read(); 
-  GyY = Wire.read() << 8 | Wire.read();
-  GyZ = Wire.read() << 8 | Wire.read();
-  tx = Tmp + tcal;
-  t = tx / 340 + 36,53;
-  tf = (t * 9 / 5) + 32;
-  getAngle(AcX, AcY, AcZ);
-  Serial.print("Winkel: ");
-  Serial.print("Pitch = ");
-  Serial.print(pitch);
-  Serial.print("  | ");
-  Serial.print(Pitch);
-  Serial.print(" Roll = ");
-  Serial.print(roll);
-  Serial.print("  | ");
-  Serial.print(Rolle);
-  Serial.print("Beschleunigungsmesser: "); Serial.print("X = ");
-  Serial.print(AcX + AcXcal);
-  Serial.print(" Y = ");
-  Serial.print(AcY + AcYcal);
-  Serial.print(" Z = ");
-  Serial.println(AcZ + AcZcal);
-  Serial.print("Temperatur in Celsius = "); Serial.print(t);
-  Serial.print(" Fahrenheit = ");
-  Serial.println(tf);
-  Serial.print("Gyroskop: ");
-  Serial.print("X = ");
-  Serial.print(GyX + GyXcal);
-  Serial.print(" Y = ");
-  Serial.print(GyY + GyYcal);
-  Serial.print(" Z = ");
-  Serial.println(GyZ + GyZcal);
+  // ufr = porocar/arduino/sensors/hc-sr04/front-right
+  Sensordata += "ufr:" + String(hcsr04_front_right.distanceInMillimeters()) + "|";
 
-  Serial.println("---------------------");
-
-
-  // KOMPASS
-
-    int x, y, z;
+  // ub = porocar/arduino/sensors/hc-sr04/back
+  Sensordata += "ub:" + String(hcsr04_back.distanceInMillimeters()) + "|";
   
-  // Read compass values
+// KOMPASS
+  int a, x, y, z;
   compass.read();
-
-  // Return XYZ readings
   x = compass.getX();
   y = compass.getY();
   z = compass.getZ();
-  
-  Serial.print("X: ");
-  Serial.print(x);
-  Serial.print(" Y: ");
-  Serial.print(y);
-  Serial.print(" Z: ");
-  Serial.print(z);
-  Serial.println();
-  
-  Serial.println("---------------------");
 
-  Serial.println("------------------");
-  Serial.println("|    DATA End    |");
-  Serial.println("------------------");
-}
+  byte b;
+  char myArray[3];
+
+  //a = porocar/arduino/sensors/gy-271/azimuth
+  a = compass.getAzimuth();
+  Sensordata += "a:" + String(a) + "|";
+
+  b = compass.getBearing(a);
+  // b = porocar/arduino/sensors/gy-271/bearing
+  Sensordata += "v:" + String(b) + "|";
+
+  compass.getDirection(myArray, a);
+  // d = porocar/arduino/sensors/gy-271/direction
+  Sensordata += "d:" + String(myArray[0]) + String(myArray[1]) + String(myArray[2]) + "|";
+
+  // p = porocar/arduino/sensors/gy-271/position
+  Sensordata += "p:" + String(x) + "," + String(y) + "," + String(z) + "|";
+
+  //Serial.println("Sensordata" + Sensordata);
 
 
-void getAngle(int Ax, int Ay, int Az) {
-double x = Ax;
-double y = Ay;
-double z = Az;
-Pitch = atan(x / sqrt((y * y) + (z * z)));
-roll = atan(y / sqrt((x * x) + (z * z)));
-pitch = pitch * (180,0 / 3,14);
-Rolle = Rolle * (180,0 / 3,14) ;
+  //6060
+  mpu.update();
+  // ga = porocar/arduino/sensors/mpu6050/acceleration
+  Sensordata += "ga:" + String(mpu.getAccX()) + "," + String(mpu.getAccY()) + "," + String(mpu.getAccZ()) + "|";
+
+  // ac = porocar/arduino/sensors/mpu6050/acceleration/angle
+  Sensordata += "ac:" + String(mpu.getAccAngleX()) + "," + String(mpu.getAccAngleY()) + "|";
+
+  // an = porocar/arduino/sensors/mpu6050/gyro
+  Sensordata += "an:" + String(mpu.getGyroX()) + "," + String(mpu.getGyroY()) + "," + String(mpu.getGyroZ()) + "|";
+
+  // aa = porocar/arduino/sensors/mpu6050/angle
+  Sensordata += "aa:" + String(mpu.getAngleY()) + "," + String(mpu.getAngleX()) + "," + String(mpu.getAngleZ()) + "|";
+
+  Sensordata += "DATAEND";
+
+  Serial.println(Sensordata);
+  delay(delayMS);
 }
