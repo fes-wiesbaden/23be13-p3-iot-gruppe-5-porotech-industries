@@ -41,7 +41,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.bytedeco.opencv.global.opencv_dnn.*;
 
 @Profile("!test")
-@RestController
+//@RestController
 public class OpenCvStreamController {
 
     private VideoCapture camera;
@@ -54,7 +54,7 @@ public class OpenCvStreamController {
     private final BlockingQueue<Mat> captureQueue = new LinkedBlockingQueue<>(2);
     private final BlockingQueue<Mat> processedQueue = new LinkedBlockingQueue<>(2);
 
-    @PostConstruct
+    //@PostConstruct
     public void init() throws Exception {
         Loader.load(opencv_java.class);
 

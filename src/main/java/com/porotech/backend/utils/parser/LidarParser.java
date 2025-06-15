@@ -9,18 +9,20 @@ public class LidarParser {
     private static final int MEASUREMENT_LENGTH = 12;
 
     public static class LidarMeasurement {
-        public final float angle;
-        public final float distance;
-        public final int confidence;
+        public final float startAngle;
+        public final float endAngle;
+        public final int[] distances;
+        public final int[] confidences;
 
-        public LidarMeasurement(float angle, float distance, int confidence) {
-            this.angle = angle;
-            this.distance = distance;
-            this.confidence = confidence;
+        public LidarMeasurement(float startAngle, float endAngle, int[] distances, int[] confidences) {
+            this.startAngle = startAngle;
+            this.endAngle = endAngle;
+            this.distances = distances;
+            this.confidences = confidences;
         }
     }
 
-    public List<LidarMeasurement> parseLidar(byte[] data) {
+    public LidarMeasurement parseLidar(byte[] data) {
         ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
 
         buffer.get();
@@ -37,43 +39,36 @@ public class LidarParser {
             confidences[i] = buffer.get() & 0xFF;
         }
 
-        int stopAngleRaw = buffer.getShort() & 0xFFFF;
+        int endAngleRaw = buffer.getShort() & 0xFFFF;
         int timestamp = buffer.getShort() & 0xFFFF;
         int crc = buffer.get() & 0xFF;
 
         float startAngle = startAngleRaw / 100.0f;
-        float stopAngle = stopAngleRaw / 100.0f;
+        float endAngle = endAngleRaw / 100.0f;
 
-        if (stopAngle < startAngle) {
-            stopAngle += 360.0f;
+        if (endAngle < startAngle) {
+            endAngle += 360.0f;
         }
 
-        float stepSize = (stopAngle - startAngle) / (MEASUREMENT_LENGTH - 1);
-
-        System.out.print("Distances: [");
+        //System.out.print("Distances: [");
         for (int i = 0; i < MEASUREMENT_LENGTH; i++) {
-            System.out.print(distances[i]);
-            if (i < MEASUREMENT_LENGTH - 1) System.out.print(", ");
+            //System.out.print(distances[i]);
+            //if (i < MEASUREMENT_LENGTH - 1) System.out.print(", ");
         }
-        System.out.println("]");
+        //System.out.println("]");
 
-        System.out.print("Confidences: [");
+        //System.out.print("Confidences: [");
         for (int i = 0; i < MEASUREMENT_LENGTH; i++) {
-            System.out.print(confidences[i]);
-            if (i < MEASUREMENT_LENGTH - 1) System.out.print(", ");
+            //System.out.print(confidences[i]);
+            //if (i < MEASUREMENT_LENGTH - 1) System.out.print(", ");
         }
-        System.out.println("]");
+        //System.out.println("]");
 
-        List<LidarMeasurement> measurements = new ArrayList<>();
-        for (int i = 0; i < MEASUREMENT_LENGTH; i++) {
-            float angle = startAngle + stepSize * i;
-            measurements.add(new LidarMeasurement(angle, distances[i], confidences[i]));
-        }
+        LidarMeasurement measurement = new LidarMeasurement(startAngle, endAngle, distances, confidences);
 
-        System.out.printf("Length: %d, Speed: %d, StartAngle: %.2f, StopAngle: %.2f, Timestamp: %d, CRC: %d%n",
-                length, speed, startAngle, stopAngle, timestamp, crc);
+        //System.out.printf("Length: %d, Speed: %d, StartAngle: %.2f, endAngle: %.2f, Timestamp: %d, CRC: %d%n",length, speed, startAngle, endAngle, timestamp, crc);
 
-        return measurements;
+        return measurement;
     }
 
 }
