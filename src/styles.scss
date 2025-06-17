@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/theming';
+
+// Standardkonfiguration laden
+@include mat-core();
+
+// Farben definieren
+$my-primary: mat-palette($mat-indigo);
+$my-accent: mat-palette($mat-pink);
+
+// Theme erstellen
+$my-theme: mat-light-theme($my-primary, $my-accent);
+
+// Theme anwenden
+@include angular-material-theme($my-theme);
