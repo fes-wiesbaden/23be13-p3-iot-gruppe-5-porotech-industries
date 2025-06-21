@@ -1,6 +1,6 @@
 //POROCAR
 
-uint32_t delayMS = 100;
+uint32_t delayMS = 0;
 
 //TEMP HUMIDITY
 #include <Adafruit_Sensor.h>
@@ -43,7 +43,20 @@ MPU6050 mpu(Wire);
 QMC5883LCompass compass;
 
 
+// drehzahl
 
+#define F249_AMOUNT 4
+#define WHEEL_FRONT_LEFT 3
+#define WHEEL_FRONT_RIGHT 4
+#define WHEEL_BACK_LEFT 5
+#define WHEEL_BACK_RIGHT 6
+const int sensorPins[F249_AMOUNT] = {
+  WHEEL_FRONT_LEFT, 
+  WHEEL_FRONT_RIGHT, 
+  WHEEL_BACK_LEFT, 
+  WHEEL_BACK_RIGHT
+};
+int sensorStates[F249_AMOUNT];
 
 
 void setup() {
@@ -52,6 +65,7 @@ void setup() {
   Serial.println("TEST");
 
   // 6050
+  Serial.println("!");
   Wire.begin();
   byte status = mpu.begin();
   mpu.calcOffsets(true,true);  
@@ -59,15 +73,22 @@ void setup() {
   //Serial.println(status);
 
   // Kompass
+  Serial.println("!");
   compass.init();
   compass.setSmoothing(10,true);  
   //compass.setCalibrationOffsets(5.00, 287.00, -730.00);
   //compass.setCalibrationScales(1.05, 1.06, 0.91);
 
+Serial.println("!");
   dht.begin();
   sensor_t sensor;
   dht.temperature().getSensor(&sensor);
   dht.humidity().getSensor(&sensor);
+
+  // F249
+  for (int i = 0; i < F249_AMOUNT; i++) {
+    pinMode(sensorPins[i], INPUT);
+  }
 }
 
 void loop() {
@@ -86,7 +107,6 @@ void loop() {
 
 
 //ULTRASCHALL
-
   // ufl = porocar/arduino/sensors/hc-sr04/front-left
   Sensordata += "ufl:" + String(hcsr04_front_left.distanceInMillimeters()) + "|";
 
@@ -137,6 +157,22 @@ void loop() {
 
   // aa = porocar/arduino/sensors/mpu6050/angle
   Sensordata += "aa:" + String(mpu.getAngleY()) + "," + String(mpu.getAngleX()) + "," + String(mpu.getAngleZ()) + "|";
+
+
+  // F249
+  // fl = porocar/arduino/sensors/f249/front_left
+  Sensordata += "fl:" + String(sensorStates[WHEEL_FRONT_LEFT]) + "|";
+
+  // fr = porocar/arduino/sensors/f249/front_right
+  Sensordata += "fr:" + String(sensorStates[WHEEL_FRONT_RIGHT]) + "|";
+
+  // bl = porocar/arduino/sensors/f249/back_left
+  Sensordata += "bl:" + String(sensorStates[WHEEL_BACK_LEFT]) + "|";
+
+  // br = porocar/arduino/sensors/f249/back_right
+  Sensordata += "br:" + String(sensorStates[WHEEL_BACK_LEFT]) + "|";
+  
+
 
   Sensordata += "DATAEND";
 
