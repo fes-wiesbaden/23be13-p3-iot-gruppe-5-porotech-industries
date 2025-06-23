@@ -21,10 +21,13 @@ import { MatMenuModule } from '@angular/material/menu';
         @for (widget of store.widgetsToAdd(); track widget.id) {
           <button mat-menu-item (click)="store.addWidget(widget)">
             {{ widget.label }}
-            <mat-icon>add</mat-icon>
           </button>
-
+        } @empty {
+          <button mat-menu-item>
+            <span mat-clear-icon>No widgets available</span>
+          </button>          
         }
+
       </mat-menu>
     </div>
 
@@ -40,6 +43,7 @@ import { MatMenuModule } from '@angular/material/menu';
   .dashboard-widgets {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: 150px;
     gap: 16px;
   }
 

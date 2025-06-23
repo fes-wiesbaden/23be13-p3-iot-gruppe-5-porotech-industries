@@ -10,6 +10,8 @@ export class DashboardService {
       id: 1,
       label: 'Temperatur',
       content: TempratureComponent,
+      rows: 20,
+      colums: 2,
     },
     {
       id: 2,

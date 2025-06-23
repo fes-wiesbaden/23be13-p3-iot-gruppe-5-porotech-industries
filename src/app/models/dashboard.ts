@@ -4,4 +4,6 @@ export interface Widget {
     id: number;
     label: string;
     content: Type<any>;
+    rows?: number;
+    colums?: number;
 }
