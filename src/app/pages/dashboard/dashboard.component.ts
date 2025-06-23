@@ -10,12 +10,19 @@ import { DashboardService } from '@/app/services/dashboard.service';
   template: `
     <h1>Dashboard</h1>
 
-    @for (w of store.widgets(); track w.id) {
-    <app-widget [data]="w" />
-  }
+    <div class="dashboard-widgets">
+      @for (w of store.widgets(); track w.id) {
+      <app-widget [data]="w" />
+      }
+    </div>
+
   `,
   styles: `
   
+  .dashboard-widgets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
   `
 })
 export class DashboardComponent {
