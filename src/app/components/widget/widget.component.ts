@@ -1,12 +1,14 @@
 import { Widget } from '@/app/models/dashboard';
+import { NgComponentOutlet } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-widget',
-  imports: [],
+  imports: [NgComponentOutlet],
   template: `
     <div class="container mat-elevation-z3">
       <h3 class="m-0">{{ data().label }}</h3>
+      <ng-container [ngComponentOutlet]="data().content" />
     </div>
   `,
   styles: `
