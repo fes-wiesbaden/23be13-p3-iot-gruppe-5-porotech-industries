@@ -22,6 +22,7 @@ import { DashboardService } from '@/app/services/dashboard.service';
   .dashboard-widgets {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
   `
 })
