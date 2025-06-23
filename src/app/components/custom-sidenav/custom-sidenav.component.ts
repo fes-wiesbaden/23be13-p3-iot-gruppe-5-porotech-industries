@@ -68,6 +68,7 @@ export type MenuItem = {
 
     .header-text {
       height: 3rem;
+      margin-bottom: 1rem;
 
       > h1 {
         text-align: center;
@@ -77,7 +78,7 @@ export type MenuItem = {
         text-align: center;
         margin: 0;
         font-size: 1rem;
-        line-height: 1.5rem;
+        line-height: 1.5rem; 
       }
 
       > p {
