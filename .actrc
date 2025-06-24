@@ -1,0 +1,2 @@
+-P sdp-im887-imali=ghcr.io/catthehacker/ubuntu:act-20.04
+--container-architecture linux/amd64
