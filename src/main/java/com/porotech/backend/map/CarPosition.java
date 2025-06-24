@@ -4,9 +4,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CarPosition {
-    private double x;
-    private double y;
-    private double z;
+    private int x;
+    private int y;
+    private int z;
     private double yaw;
     private double pitch;
     private double roll;
@@ -28,9 +28,9 @@ public class CarPosition {
         this.lastUpdateTime = 0;
     }
 
-    public double getX() { return x; }
-    public double getY() { return y; }
-    public double getZ() { return z; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getZ() { return z; }
     public double getYaw() { return yaw; }
     public double getPitch() {  return pitch; }
     public double getRoll() { return roll; }
@@ -39,9 +39,9 @@ public class CarPosition {
     public double getVelocityZ() { return velocityZ; }
     public long getLastUpdateTime() { return lastUpdateTime; }
 
-    public void setX(double x) { this.x = x; }
-    public void setY(double y) { this.y = y; }
-    public void setZ(double z) { this.z = z; }
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
+    public void setZ(int z) { this.z = z; }
     public void setYaw(double yaw) { this.yaw = yaw; }
     public void setPitch(double pitch) { this.pitch = pitch; }
     public void setRoll(double roll) { this.roll = roll; }

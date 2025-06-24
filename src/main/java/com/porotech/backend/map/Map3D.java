@@ -23,7 +23,7 @@ public class Map3D {
 
     public void addLidarPoint(LidarParser.LidarMeasurement measurement) {
         if (carPosition.getX() == -1 && carPosition.getY() == -1) return;
-        System.out.println("Car Position: " + carPosition.getX() + ", " + carPosition.getY());
+        //System.out.println("Car Position: " + carPosition.getX() + ", " + carPosition.getY());
 
         int[] distances = measurement.distances;
         double startAngle = measurement.startAngle;
