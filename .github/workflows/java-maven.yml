@@ -22,17 +22,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    services:
-      postgres:
-        image: postgres:15
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: porocar
-          POSTGRES_PASSWORD: porocar
-          POSTGRES_DB: secret
-        options: >-
-          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       MAVEN_OPTS: "-Xmx2g"
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/porocar
