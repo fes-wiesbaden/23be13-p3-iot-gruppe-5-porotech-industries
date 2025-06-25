@@ -23,8 +23,8 @@ HCSR04 hcsr04_front_left(TRIG_PIN_FRONT_LEFT, ECHO_PIN_FRONT_LEFT, 20, 4000);
 
 HCSR04 hcsr04_front_right(TRIG_PIN_FRONT_RIGHT, ECHO_PIN_FRONT_RIGHT, 20, 4000);
 
-#define TRIG_PIN_BACK 9
-#define ECHO_PIN_BACK 8
+#define TRIG_PIN_BACK 8
+#define ECHO_PIN_BACK 9
 
 HCSR04 hcsr04_back(TRIG_PIN_BACK, ECHO_PIN_BACK, 20, 4000);
 
@@ -45,18 +45,16 @@ QMC5883LCompass compass;
 
 // drehzahl
 
-#define F249_AMOUNT 4
 #define WHEEL_FRONT_LEFT 3
 #define WHEEL_FRONT_RIGHT 4
 #define WHEEL_BACK_LEFT 5
 #define WHEEL_BACK_RIGHT 6
-const int sensorPins[F249_AMOUNT] = {
-  WHEEL_FRONT_LEFT, 
-  WHEEL_FRONT_RIGHT, 
-  WHEEL_BACK_LEFT, 
-  WHEEL_BACK_RIGHT
-};
-int sensorStates[F249_AMOUNT];
+
+int stateFrontLeft;
+int stateFrontRight;
+int stateBackLeft;
+int stateBackRight;
+
 
 
 void setup() {
@@ -86,9 +84,10 @@ Serial.println("!");
   dht.humidity().getSensor(&sensor);
 
   // F249
-  for (int i = 0; i < F249_AMOUNT; i++) {
-    pinMode(sensorPins[i], INPUT);
-  }
+  pinMode(WHEEL_FRONT_LEFT, INPUT);
+  pinMode(WHEEL_FRONT_RIGHT, INPUT);
+  pinMode(WHEEL_BACK_LEFT, INPUT);
+  pinMode(WHEEL_BACK_RIGHT, INPUT);
 }
 
 void loop() {
@@ -160,17 +159,21 @@ void loop() {
 
 
   // F249
+  stateFrontLeft  = digitalRead(WHEEL_FRONT_LEFT);
+  stateFrontRight = digitalRead(WHEEL_FRONT_RIGHT);
+  stateBackLeft   = digitalRead(WHEEL_BACK_LEFT);
+  stateBackRight  = digitalRead(WHEEL_BACK_RIGHT);
   // fl = porocar/arduino/sensors/f249/front_left
-  Sensordata += "fl:" + String(sensorStates[WHEEL_FRONT_LEFT]) + "|";
+  Sensordata += "fl:" + String(stateFrontLeft) + "|";
 
   // fr = porocar/arduino/sensors/f249/front_right
-  Sensordata += "fr:" + String(sensorStates[WHEEL_FRONT_RIGHT]) + "|";
+  Sensordata += "fr:" + String(stateFrontRight) + "|";
 
   // bl = porocar/arduino/sensors/f249/back_left
-  Sensordata += "bl:" + String(sensorStates[WHEEL_BACK_LEFT]) + "|";
+  Sensordata += "bl:" + String(stateBackLeft) + "|";
 
   // br = porocar/arduino/sensors/f249/back_right
-  Sensordata += "br:" + String(sensorStates[WHEEL_BACK_LEFT]) + "|";
+  Sensordata += "br:" + String(stateBackRight) + "|";
   
 
 
