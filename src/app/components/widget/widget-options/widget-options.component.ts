@@ -37,7 +37,7 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
     </div>
   `,
   styles: `
-  
+
   :host {
     position: absolute;
     z-index: 2;
@@ -51,20 +51,20 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
-     --mat-standard-button-toggle-height: 16px;
-  
+
+    --mat-standard-button-toggle-height: 16px;
+
     > div {
       display: flex;
       gap: 8px;
       align-items: center;
       margin-bottom: 18px;
     }
-
   }
-  
+      
   .close-button {
     position: absolute;
     top: 0;

@@ -32,7 +32,7 @@ import { WidgetOptionsComponent } from "./widget-options/widget-options.componen
       position: relative;
       height: 100%;
       width: 100%;
-      padding: 32px;
+      padding: 20px;
       box-sizing: border-box;
       border-radius: inherit;
       overflow: hidden;

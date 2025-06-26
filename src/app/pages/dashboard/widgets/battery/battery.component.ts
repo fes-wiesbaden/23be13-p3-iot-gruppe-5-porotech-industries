@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
   <div>
-    <i class="material-icons">battery_5_bar</i>
-    <h1>64%</h1>
+    <i class="material-icons battery_5_bar"></i><h1>64%</h1>  
   </div>
   `,
   styles: ``

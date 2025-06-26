@@ -9,20 +9,17 @@ import { Component } from '@angular/core';
       src="501-0667_t.png"
       class="cam-image"
       sizes="100vw"
+      [border]="1"
     />
   `,
 styles: `
-  :host {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
 
   .cam-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    margin: 0 auto;
   }`
 })
 export class CamComponent {

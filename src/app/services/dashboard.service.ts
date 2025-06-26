@@ -17,8 +17,8 @@ export class DashboardService {
       id: 1,
       label: 'Cam',
       content: CamComponent,
-      rows: 2,
-      columns: 2
+      rows: 3,
+      columns: 3
     },
     {
       id: 2,
@@ -36,15 +36,15 @@ export class DashboardService {
     },
     {
       id: 4,
-      label: 'Infra Red (3)',
-      content: InfraredComponent,
-      rows: 2,
+      label: 'Direction (North)',
+      content: DirectionComponent,
+      rows: 1,
       columns: 1
     },
     {
       id: 5,
-      label: 'Direction (North)',
-      content: DirectionComponent,
+      label: 'Status',
+      content: StatusComponent,
       rows: 1,
       columns: 1
     },
@@ -55,27 +55,27 @@ export class DashboardService {
       rows: 1,
       columns: 1
     },
-    {
+        {
       id: 7,
+      label: 'Infra Red (3)',
+      content: InfraredComponent,
+      rows: 2,
+      columns: 1
+    },
+    {
+      id: 8,
       label: 'Battery',
       content: BatteryComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 8,
+      id: 9,
       label: 'Map (surroundings)',
       content: MapComponent,
       rows: 2,
       columns: 2
     },
-    {
-      id: 9,
-      label: 'Status',
-      content: StatusComponent,
-      rows: 1,
-      columns: 1
-    }
   ]);
 
   addedWidgets = signal<Widget[]>([
@@ -83,8 +83,8 @@ export class DashboardService {
       id: 1,
       label: 'Cam',
       content: CamComponent,
-      rows: 2,
-      columns: 2
+      rows: 3,
+      columns: 3
     },
     {
       id: 2,
@@ -116,32 +116,32 @@ export class DashboardService {
     },
     {
       id: 6,
+      label: 'Status',
+      content: StatusComponent,
+      rows: 1,
+      columns: 1
+    },
+    {
+      id: 7,
       label: 'Speed',
       content: SpeedComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 7,
+      id: 8,
       label: 'Battery',
       content: BatteryComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 8,
+      id: 9,
       label: 'Map (surroundings)',
       content: MapComponent,
       rows: 2,
       columns: 2
     },
-    {
-      id: 9,
-      label: 'Status',
-      content: StatusComponent,
-      rows: 1,
-      columns: 1
-    }
   ]);
 
   widgetsToAdd = computed(() => {
