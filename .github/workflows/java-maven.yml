@@ -41,6 +41,7 @@ jobs:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/porocar
       SPRING_DATASOURCE_USERNAME: porocar
       SPRING_DATASOURCE_PASSWORD: secret
+      TESTCONTAINERS_RYUK_DISABLED: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
