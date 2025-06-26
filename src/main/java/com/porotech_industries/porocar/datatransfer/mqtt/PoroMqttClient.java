@@ -34,7 +34,9 @@ public class PoroMqttClient {
         message.setQos(qos);
         message.setRetained(retained);
         client.publish(topic, message);
+      
         //PoroLogger.info("MQTT Publisher", "Published to Topic: %s, QoS: %d, Retained: %b", topic, qos, retained);
+
     }
 
     public void setCallback(MqttCallback callback) {

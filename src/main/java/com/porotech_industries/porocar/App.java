@@ -9,6 +9,7 @@ import com.porotech_industries.porocar.utils.parser.PoroArduinoParser;
 import com.porotech_industries.porocar.utils.wheels.L298NController;
 import com.porotech_industries.porocar.utils.wheels.PoroWheelCommandHandler;
 import com.porotech_industries.porocar.utils.wheels.PoroWheelController;
+
 import org.eclipse.paho.client.mqttv3.MqttException;
 import com.porotech_industries.porocar.utils.logger.*;
 
@@ -19,15 +20,17 @@ public class App {
     public static void main(String[] args) throws MqttException, InterruptedException {
 		System.out.println("Hello World!");
 		String broker = "tcp://10.93.136.118:1883";
+
 		String TOPIC = "test/1";
 		PoroLogger logger = new PoroLogger();
 		PoroSerialReceiver serialReceiver = new PoroSerialReceiver();
+
 
 		logger.enable();
 		logger.setLogLevel(PoroLogger.LogLevel.INFO);
 
 		System.setProperty("diozero.provider", "pigpio");
-		//L298NController leftController = new L298NController(17, 27, 5, 6, 12, 13);
+		//L298NController leftController = new L298NController(17, 27, 5, 6, 12, 13); // pwd currently buggy makes cpu go to 100% 
 		//L298NController rightController = new L298NController(24, 25, 22, 23, 18, 19);
 
 		//PoroWheelController wheelController = new PoroWheelController(leftController, rightController);
@@ -123,6 +126,7 @@ public class App {
 			}
 			//System.exit(-1);
 			//System.out.println("send datastream");
+
 		}
 	}
 		//serialReceiver.close();
