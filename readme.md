@@ -42,7 +42,21 @@ git clone https://github.com/PoroTech-Industries/porotech-client.git
 sudo apt install java maven 
 ```
 
-### 3. Bauen und Ausführen
+### 3. Verkabeln
+
+Wichtig hierbei ist der Lidarsensor, sowie die Motortreiber welche mit den Motoren verbunden sein sollten
+
+![Fritzing Kabelung](https://github.com/PoroTech-Industries/porotech-documentation/blob/master/porotech-embedded/pinout.png)
+
+### 4. Konfigurieren
+
+In `src/main/java/com/porotech_industries_porocar/App.java` broker ip, sowie Base Path für das den Lidar angeben, z.B. `Documents/PoroCar/porotech-client/serialMQTT`
+
+### 5. Broker starten
+
+Einen MQTT broker starten auf dem richtigen gerät damit sich die Clients verbinden können, empfohlen wird eclipse mosquitto über docker laufen zu lassen
+
+### 6. Bauen und Ausführen
 
 ```bash
 cd porotech-client
