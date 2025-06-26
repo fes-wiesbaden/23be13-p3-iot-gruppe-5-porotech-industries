@@ -4,6 +4,11 @@ import { Widget } from '../models/dashboard';
 import { AngleComponent } from '../pages/dashboard/widgets/angle/angle.component';
 import { CamComponent } from '../pages/dashboard/widgets/cam/cam.component';
 import { BatteryComponent } from '../pages/dashboard/widgets/battery/battery.component';
+import { InfraredComponent } from '../pages/dashboard/widgets/infrared/infrared.component';
+import { DirectionComponent } from '../pages/dashboard/widgets/direction/direction.component';
+import { SpeedComponent } from '../pages/dashboard/widgets/speed/speed.component';
+import { MapComponent } from '../pages/dashboard/widgets/map/map.component';
+import { StatusComponent } from '../pages/dashboard/widgets/status/status.component';
 
 @Injectable()
 export class DashboardService {
@@ -11,7 +16,7 @@ export class DashboardService {
     {
       id: 1,
       label: 'Cam',
-      content: TempratureComponent,
+      content: CamComponent,
       rows: 2,
       columns: 2
     },
@@ -32,42 +37,42 @@ export class DashboardService {
     {
       id: 4,
       label: 'Infra Red (3)',
-      content: AngleComponent,
+      content: InfraredComponent,
       rows: 2,
       columns: 1
     },
     {
       id: 5,
       label: 'Direction (North)',
-      content: AngleComponent,
+      content: DirectionComponent,
       rows: 1,
       columns: 1
     },
     {
       id: 6,
       label: 'Speed',
-      content: AngleComponent,
+      content: SpeedComponent,
       rows: 1,
       columns: 1
     },
     {
       id: 7,
       label: 'Battery',
-      content: AngleComponent,
+      content: BatteryComponent,
       rows: 1,
       columns: 1
     },
     {
       id: 8,
       label: 'Map (surroundings)',
-      content: AngleComponent,
-      rows: 1,
-      columns: 1
+      content: MapComponent,
+      rows: 2,
+      columns: 2
     },
     {
       id: 9,
       label: 'Status',
-      content: AngleComponent,
+      content: StatusComponent,
       rows: 1,
       columns: 1
     }
@@ -98,21 +103,21 @@ export class DashboardService {
     {
       id: 4,
       label: 'Infra Red (3)',
-      content: AngleComponent,
+      content: InfraredComponent,
       rows: 2,
       columns: 1
     },
     {
       id: 5,
       label: 'Direction (North)',
-      content: AngleComponent,
+      content: DirectionComponent,
       rows: 1,
       columns: 1
     },
     {
       id: 6,
       label: 'Speed',
-      content: AngleComponent,
+      content: SpeedComponent,
       rows: 1,
       columns: 1
     },
@@ -126,14 +131,14 @@ export class DashboardService {
     {
       id: 8,
       label: 'Map (surroundings)',
-      content: AngleComponent,
+      content: MapComponent,
       rows: 2,
       columns: 2
     },
     {
       id: 9,
       label: 'Status',
-      content: AngleComponent,
+      content: StatusComponent,
       rows: 1,
       columns: 1
     }
