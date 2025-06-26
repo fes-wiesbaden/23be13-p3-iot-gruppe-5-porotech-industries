@@ -51,7 +51,7 @@ public class PoroSerialReceiver {
     public String receiveData(int timeout) {
         if (serialPort == null || !serialPort.isOpen()) {
             PoroLogger.error("PoroSerialReceiver", "No open connection to serial port.");
-            return "";
+            System.exit(1);
         }
 
         byte[] buffer = new byte[1024];
@@ -69,7 +69,8 @@ public class PoroSerialReceiver {
                     lineBuffer.append(ch);
                     if (ch == '\n') {
                         String line = lineBuffer.toString().trim();
-                        PoroLogger.info("PoroSerialReceiver", "Received line: %s", line);
+                        //PoroLogger.info("PoroSerialReceiver", "Received line: %s", line);
+
                         return line;
                     }
                 }

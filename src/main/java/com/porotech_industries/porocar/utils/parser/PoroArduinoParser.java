@@ -22,6 +22,10 @@ public class PoroArduinoParser {
         topicByKey.put("ac",  "porocar/arduino/sensors/mpu6050/acceleration/angle");
         topicByKey.put("an",  "porocar/arduino/sensors/mpu6050/gyro");
         topicByKey.put("aa",  "porocar/arduino/sensors/mpu6050/angle");
+        topicByKey.put("fl",  "porocar/arduino/sensors/f249/fl");
+        topicByKey.put("fr",  "porocar/arduino/sensors/f249/fr");
+        topicByKey.put("bl",  "porocar/arduino/sensors/f249/bl");
+        topicByKey.put("br",  "porocar/arduino/sensors/f249/br");
     }
 
     private static String convertKeyToTopic(String key) {
@@ -40,7 +44,8 @@ public class PoroArduinoParser {
         int start = data.indexOf("DATASTART");
         int end = data.indexOf("DATAEND");
         if (start == -1 || end == -1) {
-            PoroLogger.warn("PoroARduinoParser", "Failed to retrieve Start or end of data");
+            //PoroLogger.warn("PoroARduinoParser", "Failed to retrieve Start or end of data");
+
             return parsedData;
         }
 
