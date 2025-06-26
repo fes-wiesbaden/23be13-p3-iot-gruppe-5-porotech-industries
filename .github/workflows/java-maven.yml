@@ -18,12 +18,30 @@ on:
 
 jobs:
   build:
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: porocar
+          POSTGRES_USER: porocar
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U porocar -h localhost -p 5432"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       MAVEN_OPTS: "-Xmx2g"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/porocar
+      SPRING_DATASOURCE_USERNAME: porocar
+      SPRING_DATASOURCE_PASSWORD: secret
+      TESTCONTAINERS_RYUK_DISABLED: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
