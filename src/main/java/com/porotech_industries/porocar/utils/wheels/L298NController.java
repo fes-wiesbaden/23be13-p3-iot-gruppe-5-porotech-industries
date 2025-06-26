@@ -12,8 +12,8 @@ public class L298NController {
     private final DigitalOutputDevice In3;
     private final DigitalOutputDevice In4;
 
-    private final PwmOutputDevice Ena;
-    private final PwmOutputDevice Enb;
+    // private final PwmOutputDevice Ena;
+    // private final PwmOutputDevice Enb;
 
     public enum MotorCommand {
         FORWARD,
@@ -21,13 +21,13 @@ public class L298NController {
         BACKWARD
     }
 
-    public L298NController(int in1,int in2, int in3, int in4, int enaPin, int enbPin) {
+    public L298NController(int in1,int in2, int in3, int in4) { //, int enaPin, int enbPin) { // TODO: enable again if fixing pwm pins
         In1 = new DigitalOutputDevice(in1);
         In2 = new DigitalOutputDevice(in2);
         In3 = new DigitalOutputDevice(in3);
         In4 = new DigitalOutputDevice(in4);
-        Ena = new PwmOutputDevice(enaPin, 50);
-        Enb = new PwmOutputDevice(enbPin, 50);
+        // Ena = new PwmOutputDevice(enaPin, 50);
+        // Enb = new PwmOutputDevice(enbPin, 50);
     }
 
     public void controlMotor1(MotorCommand command) {
@@ -38,17 +38,17 @@ public class L298NController {
         setPins(command, In3, In4);
     }
 
-    public void setMotor1Speed(float speed) {
-        Ena.setValue(clamp(speed));
-    }
-
-    public void setMotor2Speed(float speed) {
-        Enb.setValue(clamp(speed));
-    }
-
-    private float clamp(float val) {
-        return Math.max(0f, Math.min(1f, val));
-    }
+    // public void setMotor1Speed(float speed) {
+    //     Ena.setValue(clamp(speed));
+    // }
+    //
+    // public void setMotor2Speed(float speed) {
+    //     Enb.setValue(clamp(speed));
+    // }
+    //
+    // private float clamp(float val) {
+    //     return Math.max(0f, Math.min(1f, val));
+    // }
 
     private void setPins(MotorCommand command, DigitalOutputDevice pin1, DigitalOutputDevice pin2) {
         if (command == MotorCommand.FORWARD) {

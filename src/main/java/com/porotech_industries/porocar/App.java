@@ -17,9 +17,22 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class App {
-    public static void main(String[] args) throws MqttException, InterruptedException {
+	public static void main(String[] args) throws MqttException, InterruptedException {
 		System.out.println("Hello World!");
-		String broker = "tcp://10.93.136.118:1883";
+		String broker = "tcp://192.168.178.51:1883";
+		String pythonRootDir = "Documents/PoroCar/porotech-client/serialMQTT";
+
+		try {
+			ProcessBuilder pb = new ProcessBuilder(
+				"bash", "-c",
+				"source " + "~/" + pythonRootDir + "/bin/activate" + "&& python ~/" + pythonRootDir + "/scripts/serialMQTT.py"
+			);
+			pb.inheritIO(); 
+			Process pythonProcess = pb.start();
+			PoroLogger.info("ProcessBuilder", "Python-Script gestartet");
+		} catch (Exception e) {
+			PoroLogger.error("ProcessBuilder", "Fehler beim Starten des Python-Skripts: %s", e.getMessage());
+		}
 
 		String TOPIC = "test/1";
 		PoroLogger logger = new PoroLogger();
@@ -29,38 +42,40 @@ public class App {
 		logger.enable();
 		logger.setLogLevel(PoroLogger.LogLevel.INFO);
 
-		System.setProperty("diozero.provider", "pigpio");
+		//System.setProperty("diozero.provider", "pigpio");
 		//L298NController leftController = new L298NController(17, 27, 5, 6, 12, 13); // pwd currently buggy makes cpu go to 100% 
 		//L298NController rightController = new L298NController(24, 25, 22, 23, 18, 19);
+		L298NController leftController = new L298NController(17, 27, 5, 6); 
+		L298NController rightController = new L298NController(24, 25, 22, 23);
 
-		//PoroWheelController wheelController = new PoroWheelController(leftController, rightController);
+		PoroWheelController wheelController = new PoroWheelController(leftController, rightController);
 
 		PoroLogger.info("WHEEL", "DRiving forward");
 		//wheelController.move(PoroWheelController.Direction.FORWARD, PoroWheelController.Rotation.NONE);
-        //rightController.controlMotor1(L298NController.MotorCommand.FORWARD);
-        //rightController.controlMotor2(L298NController.MotorCommand.FORWARD);
+		//rightController.controlMotor1(L298NController.MotorCommand.FORWARD);
+		//rightController.controlMotor2(L298NController.MotorCommand.FORWARD);
 
-		Thread.sleep(1000);
+		//Thread.sleep(1000);
 
-        //rightController.setMotor1Speed(0.0f);
-        //rightController.setMotor2Speed(0.0f);
+		//rightController.setMotor1Speed(0.0f);
+		//rightController.setMotor2Speed(0.0f);
 
-        //leftController.setMotor1Speed(0.0f);
-        //leftController.setMotor2Speed(1.0f);
+		//leftController.setMotor1Speed(0.0f);
+		//leftController.setMotor2Speed(1.0f);
 
-        //rightController.controlMotor1(L298NController.MotorCommand.FORWARD);
-        //rightController.controlMotor2(L298NController.MotorCommand.FORWARD);
+		//rightController.controlMotor1(L298NController.MotorCommand.FORWARD);
+		//rightController.controlMotor2(L298NController.MotorCommand.FORWARD);
 
-        //rightController.setMotor1Speed(0.0f);
-        //rightController.setMotor2Speed(0.0f);
+		//rightController.setMotor1Speed(0.0f);
+		//rightController.setMotor2Speed(0.0f);
 
-        //wheelController.move(PoroWheelController.Direction.BACKWARD, PoroWheelController.Rotation.NONE);
+		wheelController.move(PoroWheelController.Direction.FORWARD, PoroWheelController.Rotation.NONE);
 
-        Thread.sleep(2000);
+		Thread.sleep(500);
 
-        //rightController.controlMotor1(L298NController.MotorCommand.STOP);
-        //rightController.controlMotor2(L298NController.MotorCommand.STOP);
-		//wheelController.move(PoroWheelController.Direction.STOP, PoroWheelController.Rotation.NONE);
+		//rightController.controlMotor1(L298NController.MotorCommand.STOP);
+		//rightController.controlMotor2(L298NController.MotorCommand.STOP);
+		wheelController.move(PoroWheelController.Direction.STOP, PoroWheelController.Rotation.NONE);
 
 		serialReceiver.listSerialPorts();
 
@@ -84,18 +99,19 @@ public class App {
 		//PoroMqttClient publisher2 = new PoroMqttClient(broker);
 		//publisher2.connect();
 
-        //PoroWheelCommandHandler cmdHandler = new PoroWheelCommandHandler(wheelController, leftController, rightController);
+		PoroWheelCommandHandler cmdHandler = new PoroWheelCommandHandler(wheelController, leftController, rightController);
 
 
-        subscriber.subscribe("porocar/backend/wheels/move", 1, (topic, message) -> {
-            String payload = new String(message.getPayload());
-            //cmdHandler.handleMoveCommand(payload);
-        });
+		subscriber.subscribe("porocar/backend/wheels/move", 1, (topic, message) -> {
+		    String payload = new String(message.getPayload());
+		    cmdHandler.handleMoveCommand(payload);
+		});
 
-        subscriber.subscribe("porocar/backend/wheels/power", 1, (topic, message) -> {
-            String payload = new String(message.getPayload());
-            //cmdHandler.handlePowerCommand(payload);
-        });
+		subscriber.subscribe("porocar/backend/wheels/power", 1, (topic, message) -> {
+		    String payload = new String(message.getPayload());
+		    cmdHandler.handlePowerCommand(payload);
+		});
+
 		String testMessage = "Hello from PoroCar!";
 		publisher.publish(TOPIC, testMessage.getBytes(), 1, false);
 

@@ -43,17 +43,21 @@ public class PoroWheelCommandHandler {
                 return;
             }
 
-            float left1 = Float.parseFloat(parts[0]);
-            float left2 = Float.parseFloat(parts[1]);
-            float right1 = Float.parseFloat(parts[2]);
-            float right2 = Float.parseFloat(parts[3]);
+            // TODO: enable if fixing pwm pisn
 
-            leftController.setMotor1Speed(left1);
-            leftController.setMotor2Speed(left2);
-            rightController.setMotor1Speed(right1);
-            rightController.setMotor2Speed(right2);
-
-            PoroLogger.info("MOTOR", "Set speeds to L1=" + left1 + ", L2=" + left2 + ", R1=" + right1 + ", R2=" + right2);
+            PoroLogger.error("MQTT_POWER", "PWM Pins currently not implemented");
+            return;
+            // float left1 = Float.parseFloat(parts[0]);
+            // float left2 = Float.parseFloat(parts[1]);
+            // float right1 = Float.parseFloat(parts[2]);
+            // float right2 = Float.parseFloat(parts[3]);
+            //
+            // leftController.setMotor1Speed(left1);
+            // leftController.setMotor2Speed(left2);
+            // rightController.setMotor1Speed(right1);
+            // rightController.setMotor2Speed(right2);
+            //
+            // PoroLogger.info("MOTOR", "Set speeds to L1=" + left1 + ", L2=" + left2 + ", R1=" + right1 + ", R2=" + right2);
         } catch (Exception e) {
             PoroLogger.error("MQTT_POWER", "Error parsing power command: " + e.getMessage());
         }
