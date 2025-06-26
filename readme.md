@@ -12,17 +12,17 @@ Zudem steuert er die Motorik unseres Fahrzeuges.
 
 | Funktion            | Beschreibung                                                                                                                   |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Serielle Verbindung | Baut serielle Verbindung zum [Arduino Uno](https://github.com/PoroTech-Industries/porotech-embedded) auf und ließt Sensordaten |
-| Datenverarbeitung   | Parsed Sensordaten (extrahiert mqtt pfade)                                                                                     |
+| Serielle Verbindung | Baut serielle Verbindung zum [Arduino Uno](https://github.com/PoroTech-Industries/porotech-embedded) auf und liest Sensordaten |
+| Datenverarbeitung   | Parsed Sensordaten (extrahiert MQTT Pfade)                                                                                     |
 | MQTT-Kommunikation  | Baut MQTT-Verbindung zu Broker auf (Mosquitto)                                                                                 |
-| Datenübertragugn    | Dendet Sensordaten an MQTT-Broker                                                                                              |
+| Datenübertragung    | Leitet Sensordaten an MQTT-Broker weiter                                                                                             |
 | Logging             | Hat Konfigurierbaren Logger eingerichtet                                                                                       |
 
 ## Bekannte Einschränkungen
 
 | Problem                                  | Ursache                                                                                                                                                                                           |
 |------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| PWM-Steuerung funktioniert nicht richtig | Bei Start werden hardware pwm pins (12,13,18,19) nicht als diese anerkannt und über Software gesteuert wodurch die CPU-Auslastung auf 100% geht (Diozero Library)                                          |
+| PWM-Steuerung funktioniert nicht richtig | Bei Start werden hardware PWM pins (12,13,18,19) nicht als diese anerkannt und über Software gesteuert wodurch die CPU-Auslastung auf 100% geht (Diozero Library)                                          |
 | Bewegungskommandos theoretisch möglich   | Da unser [Backend](https://github.com/PoroTech-Industries/porotech-backend), durch fehlerhafte Gierwerte unseres Kompassmoduls, die Daten des LIDAR-Sensors nicht als Karte visualisern kann, wurde dies nur oberflächlich implementiert |
 
 ---
