@@ -8,7 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [WidgetComponent, MatButtonModule, MatIcon, MatMenuModule],
+  imports: [WidgetComponent, MatButtonModule, MatMenuModule],
   providers: [DashboardService],
   template: `
     <div class="header">
