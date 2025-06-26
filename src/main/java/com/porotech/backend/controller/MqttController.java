@@ -9,11 +9,13 @@ import com.porotech.backend.utils.sensors.SensorData;
 import jakarta.annotation.PostConstruct;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.Console;
 import java.util.List;
 
+@Profile("!test")
 @Service
 public class MqttController {
 
@@ -36,6 +38,7 @@ public class MqttController {
         //System.out.println("Connected to MQTT broker");
         mqttClient.subscribe("porocar/arduino/#", 1, (topic, message) -> {
             String payload = new String(message.getPayload());
+
             switch (topic) {
                 case "porocar/arduino/sensors/mpu6050/gyro":
                     long now = System.currentTimeMillis();
@@ -172,7 +175,7 @@ public class MqttController {
 
 
         mqttClient.subscribe("porocar/raspberry/ld06", 1, (topic, message) -> {
-            //System.out.println("Received Message");
+            System.out.println("Received Message");
             try {
                 byte[] payload = message.getPayload();
                 //System.out.println("Payload length: " + payload.length);

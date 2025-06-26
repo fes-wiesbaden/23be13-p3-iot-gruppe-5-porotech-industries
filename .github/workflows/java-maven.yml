@@ -18,12 +18,32 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: porocar
+          POSTGRES_USER: porocar
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U porocar -h localhost -p 5432"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     env:
       MAVEN_OPTS: "-Xmx2g"
-
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/porocar
+      SPRING_DATASOURCE_USERNAME: porocar
+      SPRING_DATASOURCE_PASSWORD: secret
+      TESTCONTAINERS_RYUK_DISABLED: true
     steps:
-      - name: Checkout source
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
@@ -40,14 +60,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2-
 
-      - name: Build with Maven Wrapper
-        run: ./mvnw clean package --batch-mode --show-version
-
-      - name: Run tests
-        run: ./mvnw test --batch-mode
+      - name: Build and Test
+        run: |
+          ./mvnw clean package --batch-mode --show-version
+          ./mvnw test --batch-mode
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: backend-jar
+          name: backend-jar-${{ matrix.os }}
           path: target/*.jar
