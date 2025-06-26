@@ -25,7 +25,7 @@ import { WidgetOptionsComponent } from "./widget-options/widget-options.componen
   
     :host {
       display: block;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .container {

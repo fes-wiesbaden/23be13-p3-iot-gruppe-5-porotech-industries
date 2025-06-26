@@ -4,9 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-angle',
   imports: [],
   template: `
-    <p>
-      angle is: ...
-    </p>
+
   `,
   styles: ``
 })

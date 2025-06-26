@@ -2,7 +2,7 @@ import { Component, model } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonToggle } from '@angular/material/button-toggle';
-
+import { Widget } from '@/app/models/dashboard';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 @Component({
   selector: 'app-widget-options',
@@ -16,8 +16,8 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
     </button>
 
     <div>
-      Width
-      <mat-button-toggle-group hideSingleSelectionIndicator="true" [value]="data().rows ?? 1">
+      <!-- Width
+      <mat-button-toggle-group hideSingleSelectionIndicator="true" [value]="data().rows ??">
         <mat-button-toggle [value]="1">1</mat-button-toggle>
         <mat-button-toggle [value]="2">2</mat-button-toggle>
         <mat-button-toggle [value]="3">3</mat-button-toggle>
@@ -33,7 +33,7 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
         <mat-button-toggle [value]="2">2</mat-button-toggle>
         <mat-button-toggle [value]="3">3</mat-button-toggle>
         <mat-button-toggle [value]="4">4</mat-button-toggle>
-      </mat-button-toggle-group>
+      </mat-button-toggle-group> -->
     </div>
   `,
   styles: `
@@ -60,7 +60,7 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
       display: flex;
       gap: 8px;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 18px;
     }
 
   }

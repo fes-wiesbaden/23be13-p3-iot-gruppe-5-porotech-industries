@@ -5,5 +5,5 @@ export interface Widget {
     label: string;
     content: Type<any>;
     rows?: number;
-    colums?: number;
+    columns?: number;
 }
