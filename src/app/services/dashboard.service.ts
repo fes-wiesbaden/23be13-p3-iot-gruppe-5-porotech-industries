@@ -127,8 +127,8 @@ export class DashboardService {
       id: 8,
       label: 'Map (surroundings)',
       content: AngleComponent,
-      rows: 1,
-      columns: 1
+      rows: 2,
+      columns: 2
     },
     {
       id: 9,

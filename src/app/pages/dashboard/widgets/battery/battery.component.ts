@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-battery',
   imports: [],
   template: `
-  <i class="material-icons">battery_5_bar</i>
+  <div>
+    <i class="material-icons">battery_5_bar</i>
     <h1>64%</h1>
+  </div>
   `,
   styles: ``
 })
