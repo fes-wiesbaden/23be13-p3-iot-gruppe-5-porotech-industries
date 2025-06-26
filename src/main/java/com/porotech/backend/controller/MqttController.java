@@ -38,7 +38,6 @@ public class MqttController {
         //System.out.println("Connected to MQTT broker");
         mqttClient.subscribe("porocar/arduino/#", 1, (topic, message) -> {
             String payload = new String(message.getPayload());
-            //System.out.println(payload);
 
             switch (topic) {
                 case "porocar/arduino/sensors/mpu6050/gyro":
@@ -69,7 +68,7 @@ public class MqttController {
                     sensorDataService.updateSensor("roll", roll);
                     break;
 
-                case "porocar/arduino/sensors/gy-271/azimuth":
+                case "porocar/arduino/sensors/gy-271/azimuth": // @Bekkaoui [YAW Problem 1] Kompass liefert falsche daten, Fahrzeug ist desorientiert (wie wir)
                     double yaw = Double.parseDouble(payload);
                     carPosition.setYaw(yaw);
                     sensorDataService.updateSensor("yaw", yaw);
@@ -92,6 +91,7 @@ public class MqttController {
                     sensorDataService.updateSensor("position_x", carPosition.getX());
                     sensorDataService.updateSensor("position_y", carPosition.getY());
                     sensorDataService.updateSensor("position_z", carPosition.getZ());
+                    System.out.println(carPosition.getX() + ", " + carPosition.getY());
                     break;
                 case "porocar/arduino/sensors/gy-271/direction":
                     String direction = payload.trim();

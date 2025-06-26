@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class DrivingService {
@@ -27,7 +28,8 @@ public class DrivingService {
     }
 
     public void sendMovementData(String movementData) throws MqttException {
-        String topic = "porocar/movement";
+        String topic = "porocar/backend/wheels/move";
+
         mqttClient.publish(topic, movementData.getBytes(), 1, false);
     }
 
@@ -36,20 +38,30 @@ public class DrivingService {
         sendMovementData(movementString);
     }
 
-    public void stopDriving() {
+    public void powerWheel(float powerFrontLeft, float powerFrontRight, float powerBackLeft, float powerBackRight) throws MqttException {
+        String topic = "porocar/backend/wheels/power";
+        String powerString = String.format(Locale.US, "%f|%f|%f|%f",
+                powerFrontLeft, powerFrontRight, powerBackLeft, powerBackRight);
+
+        mqttClient.publish(topic, powerString.getBytes(), 1, false);
+    }
+
+    public void stopDriving() throws MqttException {
         isDriving = false;
+        moveVehicle("STOP", "NONE", 0);
     }
 
     @Async
     public void driveInCircle() throws Exception {
-        int CIRCLE_STEP_TIMEOUT = 200;
+        int CIRCLE_STEP_TIMEOUT = 20;
 
         isDriving = true;
         while (isDriving) {
             if (isObstacleAhead()) {
-                moveVehicle("none", "left", CIRCLE_STEP_TIMEOUT);
+                moveVehicle("stop", "NONE", CIRCLE_STEP_TIMEOUT);
+                //moveVehicle("stop", "left", CIRCLE_STEP_TIMEOUT);
             } else {
-                moveVehicle("forward", "left", CIRCLE_STEP_TIMEOUT);
+                moveVehicle("forward", "right", CIRCLE_STEP_TIMEOUT);
             }
 
             Thread.sleep(CIRCLE_STEP_TIMEOUT);
@@ -64,19 +76,31 @@ public class DrivingService {
         AStar star = new AStar(map);
         while (isDriving) {
             CarPosition carPosition = map.getCarPosition();
-            //Point start = new Point(carPosition.getX(), carPosition.getY());
-            Point start = new Point(0, 0);
+            Point start = new Point(carPosition.getX(), carPosition.getY());
+            //Point start = new Point(0, 0); //das auskommentieren für testrunner
             System.out.println("start pos " + start.x + "," + start.y);
             Point end = new Point(x, y);
 
 
             List<Point> path = star.findPath(start, end);
 
-            for (Point point : path) {
+            int pointCount = path.size();
+            int visitedPoints = 0;
+            for (int i = 0; i < pointCount; i++) {
+                Point point = path.get(i);
                 System.out.println(point.x + ", " + point.y);
                 if (isObstacleAhead()) {
                     break;
                 }
+                visitedPoints++;
+
+                //angle rausfinden
+                //drehen
+                //geradeaus fahren
+                //profit
+            }
+            if (visitedPoints == pointCount) {
+                break;
             }
         }
         //HIER SCHLAU MATHE UM ZU BEWEGEN MIT AUSWEICHEN UND SO
@@ -120,7 +144,7 @@ public class DrivingService {
 }
 
 
-//@Service
+//@Service   // @Bekkaoui [YAW Problem 2]: hier ein test für das pathfinding bewegt sich zum input, einmal x und y eingeben
 //class DrivingTestRunner {
 //
 //    private final DrivingService drivingService;
@@ -130,9 +154,24 @@ public class DrivingService {
 //    }
 //
 //    @PostConstruct
-//    public void runTest() {
-//        System.out.println("🚗 Starting driving test to position (5, 5)...");
-//        drivingService.moveToPosition(5, 5);
+//    public void runTest() throws Exception {
+//        drivingService.powerWheel(0.7f, 0.7f, 0.7f, 0.7f);
+//        Scanner scanner = new Scanner(System.in);
+//        String input = scanner.nextLine();
+//
+//        try {
+//            String[] parts = input.trim().split("\\s+");
+//            int x = Integer.parseInt(parts[0]);
+//            int y = Integer.parseInt(parts[1]);
+//            drivingService.moveToPosition(x, y);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//        //drivingService.driveInCircle();
+//        //Thread.sleep(10000);
+//        drivingService.stopDriving();
+//        //System.out.println("🚗 Starting driving test to position (5, 5)...");
+//        //drivingService.moveToPosition(5, 5);
 //
 //    }
 //}

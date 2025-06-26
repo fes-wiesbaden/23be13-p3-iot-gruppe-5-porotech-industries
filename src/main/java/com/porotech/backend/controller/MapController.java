@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -59,6 +60,31 @@ public class MapController {
                 }
             }
         }
+
+        double yaw = -carPosition.getYaw();
+        int arrowLength = 15;
+
+        double angleRad = Math.toRadians(yaw);
+        int arrowEndX = (int) (carX + arrowLength * Math.sin(angleRad));
+        int arrowEndY = (int) (carY + arrowLength * Math.cos(angleRad));
+
+        Graphics2D g2d = image.createGraphics();
+        g2d.setColor(Color.GREEN);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawLine(carX, height - carY - 1, arrowEndX, height - arrowEndY - 1);
+
+        int arrowHeadSize = 5;
+        double arrowAngle = Math.PI / 6;
+
+        int x1 = (int) (arrowEndX - arrowHeadSize * Math.sin(angleRad - arrowAngle));
+        int y1 = (int) (arrowEndY - arrowHeadSize * Math.cos(angleRad - arrowAngle));
+        int x2 = (int) (arrowEndX - arrowHeadSize * Math.sin(angleRad + arrowAngle));
+        int y2 = (int) (arrowEndY - arrowHeadSize * Math.cos(angleRad + arrowAngle));
+
+        g2d.drawLine(arrowEndX, height - arrowEndY - 1, x1, height - y1 - 1);
+        g2d.drawLine(arrowEndX, height - arrowEndY - 1, x2, height - y2 - 1);
+
+        g2d.dispose();
 
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
