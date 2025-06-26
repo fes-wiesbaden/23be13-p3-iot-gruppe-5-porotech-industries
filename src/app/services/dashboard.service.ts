@@ -9,6 +9,9 @@ import { DirectionComponent } from '../pages/dashboard/widgets/direction/directi
 import { SpeedComponent } from '../pages/dashboard/widgets/speed/speed.component';
 import { MapComponent } from '../pages/dashboard/widgets/map/map.component';
 import { StatusComponent } from '../pages/dashboard/widgets/status/status.component';
+import { ControlsComponent } from '../pages/dashboard/widgets/controlpanel/controlpanel.component';
+import { MotorpowerComponent } from '../pages/dashboard/widgets/motorpower/motorpower.component';
+
 
 @Injectable()
 export class DashboardService {
@@ -36,46 +39,60 @@ export class DashboardService {
     },
     {
       id: 4,
+      label: 'Infra Red (3)',
+      content: InfraredComponent,
+      rows: 1,
+      columns: 1
+    },
+    {
+      id: 5,
       label: 'Direction (North)',
       content: DirectionComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 5,
+      id: 6,
       label: 'Status',
       content: StatusComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 6,
+      id: 7,
+      label: 'Motorpower',
+      content: MotorpowerComponent,
+      rows: 1,
+      columns: 1
+    },
+    {
+      id: 8,
       label: 'Speed',
       content: SpeedComponent,
       rows: 1,
       columns: 1
     },
-        {
-      id: 7,
-      label: 'Infra Red (3)',
-      content: InfraredComponent,
-      rows: 2,
-      columns: 1
-    },
     {
-      id: 8,
+      id: 9,
       label: 'Battery',
       content: BatteryComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 9,
+      id: 10,
       label: 'Map (surroundings)',
       content: MapComponent,
       rows: 2,
       columns: 2
     },
+    { 
+      id: 11,
+      label: 'ControlPanel',
+      content: ControlsComponent,
+      rows: 2,
+      columns: 2
+    }
   ]);
 
   addedWidgets = signal<Widget[]>([
@@ -104,7 +121,7 @@ export class DashboardService {
       id: 4,
       label: 'Infra Red (3)',
       content: InfraredComponent,
-      rows: 2,
+      rows: 1,
       columns: 1
     },
     {
@@ -123,25 +140,39 @@ export class DashboardService {
     },
     {
       id: 7,
+      label: 'Motorpower',
+      content: MotorpowerComponent,
+      rows: 1,
+      columns: 1
+    },
+    {
+      id: 8,
       label: 'Speed',
       content: SpeedComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 8,
+      id: 9,
       label: 'Battery',
       content: BatteryComponent,
       rows: 1,
       columns: 1
     },
     {
-      id: 9,
+      id: 10,
       label: 'Map (surroundings)',
       content: MapComponent,
       rows: 2,
       columns: 2
     },
+    { 
+      id: 11,
+      label: 'ControlPanel',
+      content: ControlsComponent,
+      rows: 2,
+      columns: 2
+    }
   ]);
 
   widgetsToAdd = computed(() => {
