@@ -33,7 +33,7 @@ Es sorgt für die sammlung der Sensordaten (Arduino + Raspberry) und weiterleitu
 Zum starten die Repo erstmal lokal klonen
 
 ```bash
-git clone https://github.com/PoroTech-Industries/porotech-embedded.git
+git clone https://github.com/PoroTech-Industries/porotech-client.git
 ```
 
 ### 2. Dependencies Installieren
@@ -45,7 +45,7 @@ sudo apt install java maven
 ### 3. Bauen und Ausführen
 
 ```bash
-cd porotech-embedded
+cd porotech-client
 chmod +x build.sh
 chmod +x run.sh
 ./build.sh && ./run.sh
