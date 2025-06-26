@@ -2,35 +2,36 @@
 
 ## Überblick
 
-Dies ist der Client unseres PoroCar Projektes welcher auf einem RaspberryPi 5 8GB läuft
+Dies ist der Client unseres PoroCar Projektes welcher auf einem RaspberryPi 5 8GB läuft.
 
-Es sorgt für die sammlung der Sensordaten (Arduino + Raspberry) und weiterleitung an das [Backend](https://github.com/PoroTech-Industries/porotech-backend), sowie die Empfangung und Ausführung von Bewegungskommandos
+Der Client ist primär für das Erfassen der Sensordaten (Arduino + Raspberry) zuständig. Diese werden per MQTT an das [Backend](https://github.com/PoroTech-Industries/porotech-backend) weitergeleitet.
+Zudem steuert er die Motorik unseres Fahrzeuges.
 
 
 ## Funktionen
 
 | Funktion            | Beschreibung                                                                                                                   |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Serielle Verbindung | Baut serielle Verbindung zum [Arduino Uno](https://github.com/PoroTech-Industries/porotech-embedded) auf und ließt Sensordaten |
-| Datenverarbeitung   | Parsed Sensordaten (extrahiert mqtt pfade)                                                                                     |
+| Serielle Verbindung | Baut serielle Verbindung zum [Arduino Uno](https://github.com/PoroTech-Industries/porotech-embedded) auf und liest Sensordaten |
+| Datenverarbeitung   | Parsed Sensordaten (extrahiert MQTT Pfade)                                                                                     |
 | MQTT-Kommunikation  | Baut MQTT-Verbindung zu Broker auf (Mosquitto)                                                                                 |
-| Datenübertragugn    | Dendet Sensordaten an MQTT-Broker                                                                                              |
+| Datenübertragung    | Leitet Sensordaten an MQTT-Broker weiter                                                                                             |
 | Logging             | Hat Konfigurierbaren Logger eingerichtet                                                                                       |
 
 ## Bekannte Einschränkungen
 
 | Problem                                  | Ursache                                                                                                                                                                                           |
 |------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| PWM-Steuerung funktioniert nicht richtig | Bei erstellung werden hardware pwm pins (12,13,18,19) nicht als diese annerkannt und über Software gesteuert wodurch CPU auf 100% geht (Diozero Library)                                          |
-| Bewegungskommandos theoretisch möglich   | Dadurch das wir beim [Backend](https://github.com/PoroTech-Industries/porotech-backend) keine richtige Karte durch fehlerhafte yaw werte bilden können wurde dies nur oberflächlich implementiert |
+| PWM-Steuerung funktioniert nicht richtig | Bei Start werden hardware PWM pins (12,13,18,19) nicht als diese anerkannt und über Software gesteuert wodurch die CPU-Auslastung auf 100% geht (Diozero Library)                                          |
+| Bewegungskommandos theoretisch möglich   | Da unser [Backend](https://github.com/PoroTech-Industries/porotech-backend), durch fehlerhafte Gierwerte unseres Kompassmoduls, die Daten des LIDAR-Sensors nicht als Karte visualisern kann, wurde dies nur oberflächlich implementiert |
 
 ---
 
-## Wie starten
+## Guide
 
 ### 1. Clone
 
-Zum starten die Repo erstmal lokal klonen
+Die Repo zum Start zunächst klonen.
 
 ```bash
 git clone https://github.com/PoroTech-Industries/porotech-client.git

@@ -6,7 +6,7 @@ import json
 from enum import Enum
 
 # Serial port configuration
-SERIAL_PORT = '/dev/ttyAMA0'  # or '/dev/ttyAMA0' depending on your config
+SERIAL_PORT = '/dev/ttyAMA0'
 BAUD_RATE = 230400
 
 # At the default rotation speed (~3600 deg/s) the system outputs about 
