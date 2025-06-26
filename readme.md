@@ -44,7 +44,7 @@ sudo apt install java maven
 
 ### 3. Verkabeln
 
-Wichtig hierbei ist der Lidarsensor, sowie die Motortreiber welche mit den Motoren verbunden sein sollten
+Die Verkabelung umfasst den Lidarsensor und die Motortreiber, die mit den Motoren verbunden sein müssen.
 
 ![Fritzing Kabelung](https://raw.githubusercontent.com/PoroTech-Industries/porotech-documentation/master/porotech-embedded/pinout.png)
 
