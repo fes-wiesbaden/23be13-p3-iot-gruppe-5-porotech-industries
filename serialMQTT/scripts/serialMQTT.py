@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt
 import time
 from enum import Enum
 
-SERIAL_PORT = '/dev/ttyAMA0'  # or '/dev/ttyAMA0' depending on your config
+SERIAL_PORT = '/dev/ttyAMA0'
 BAUD_RATE = 230400
 
 MEASUREMENTS_PER_PLOT = 480
