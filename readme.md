@@ -46,7 +46,7 @@ sudo apt install java maven
 
 Wichtig hierbei ist der Lidarsensor, sowie die Motortreiber welche mit den Motoren verbunden sein sollten
 
-![Fritzing Kabelung](https://github.com/PoroTech-Industries/porotech-documentation/blob/master/porotech-embedded/pinout.png)
+![Fritzing Kabelung](https://raw.githubusercontent.com/PoroTech-Industries/porotech-documentation/master/porotech-embedded/pinout.png)
 
 ### 4. Konfigurieren
 
