@@ -1,66 +1,40 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatIcon } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-speed',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSliderModule,
-  ],
+  imports: [MatIcon],
   template: `
-    <div class="speed-display">
+    <div class="content">
       <mat-icon class="speed-icon">speed</mat-icon>
-      <span>{{ value }} % Power</span>
-    </div>
-
-    <div class="slider">
-      <mat-slider
-        
-        class="example-margin"
-        [disabled]="disabled"
-        [max]="max"
-        [min]="min"
-        [step]="step"
-      >
-        <input matSliderThumb [(ngModel)]="value" />
-      </mat-slider>
+      <span class="value">Current: {{ speed }} km/h</span>
     </div>
   `,
   styles: [`
-    .speed-display {
+    .content {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 10px;
       display: flex;
       align-items: center;
-      gap: 3px;
-      font-size: 20px;
-      margin-bottom: 12px;
+      gap: 10px;
+      font-family: 'Roboto', sans-serif;
     }
 
     .speed-icon {
       font-size: 24px;
+      color: #3f51b5;
     }
 
-    .example-margin {
-      width: 100%;
+    .value {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
     }
-
-    .slider {
-      align: center;
-    }
-  `],
+  `]
 })
 export class SpeedComponent {
-  value = 50;
-  min = 0;
-  max = 100;
-  step = 1;
-  disabled = false;
-center: any;
+  speed = 24; //TODO: backend connection
 }

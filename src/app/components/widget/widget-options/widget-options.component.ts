@@ -6,7 +6,7 @@ import { Widget } from '@/app/models/dashboard';
 import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 @Component({
   selector: 'app-widget-options',
-  imports: [MatButtonModule, MatIcon, MatButtonToggle, MatButtonToggleGroup],
+  imports: [MatButtonModule, MatIcon],
   template: `
     <button mat-icon-button 
     class="close-button" 
